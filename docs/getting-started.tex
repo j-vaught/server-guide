@@ -1,0 +1,416 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper,margin=1in,headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{upquote}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\definecolor{URLBlue}{HTML}{0057B8}
+\hypersetup{colorlinks=true,urlcolor=URLBlue,linkcolor=URLBlue,
+  pdftitle={Getting Started with a CESR Workstation},pdfauthor={J.C. Vaught}}
+\urlstyle{same}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{CESR Getting Started}
+\fancyfoot[L]{J.C. Vaught}
+\fancyfoot[C]{\thepage/\pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\definecolor{PathBackground}{HTML}{FBE8EC}
+\definecolor{ShortcutBackground}{HTML}{E5F0FF}
+\definecolor{ProgramBackground}{HTML}{E6F3E8}
+\newcommand{\keyshortcut}[1]{\begingroup\setlength{\fboxsep}{2pt}%
+  \colorbox{ShortcutBackground}{\texttt{#1}}\endgroup}
+\newcommand{\program}[1]{\begingroup\setlength{\fboxsep}{2pt}%
+  \colorbox{ProgramBackground}{\texttt{#1}}\endgroup}
+\newcommand{\inlinecode}[1]{\begingroup\setlength{\fboxsep}{2pt}%
+  \colorbox{black!5}{\texttt{#1}}\endgroup}
+\lstdefinestyle{terminal}{
+  basicstyle=\ttfamily\normalsize\color{white},
+  backgroundcolor=\color{black},rulecolor=\color{black}}
+\lstdefinestyle{filepath}{
+  basicstyle=\ttfamily\normalsize\color{black},
+  backgroundcolor=\color{PathBackground},
+  rulecolor=\color{PathBackground}}
+\lstdefinestyle{output}{
+  basicstyle=\ttfamily\normalsize\color{black},
+  backgroundcolor=\color{black!5},rulecolor=\color{black!5}}
+\lstset{style=terminal,columns=fullflexible,
+  keepspaces=true,breaklines=true,breakatwhitespace=false,
+  showstringspaces=false,upquote=true,tabsize=4,
+  frame=single,framerule=0pt,framesep=5pt,
+  xleftmargin=6pt,xrightmargin=6pt}
+\begin{document}
+{\centering\LARGE Getting Started with a CESR Workstation\par}
+\vspace{6pt}
+\thispagestyle{fancy}
+
+
+\section*{Standard Procedure}
+
+\begin{enumerate}
+\item Confirm you have a CESR laptop or device to use. 
+\begin{quote}
+These devices have a sticker that says ``COCESR-XXXX,'' where XXXX is a number.
+\end{quote}
+
+\item Confirm that you have been approved to use the workstation you intend to access.
+\begin{quote}
+Your principal investigator (PI) or project manager should have approved your request. Ask them if you are unsure which workstation or account you may use.
+\end{quote}
+
+\item Check that your CESR computer is connected to the internet.
+
+\item Make sure Visual Studio Code (\program{VS Code}) is installed on your computer and open it from the applications menu.
+\begin{quote}
+If it is missing, contact your PI, project manager, or the Mechanical Engineering IT group, as \program{VS Code} is approved CESR software.
+\end{quote}
+\end{enumerate}
+
+\section*{Install the Remote SSH extension}
+
+In \program{VS Code}, select the Extensions icon on the left sidebar. Enter \program{SSH} in the extension search field. Install \program{Remote - SSH}, published by Microsoft. This extension lets \program{VS Code} connect to the workstation through Secure Shell (SSH). If \program{VS Code} asks you to reload after installation, do so.
+
+\section*{Add the workstation}
+
+Open the Command Palette with \keyshortcut{Ctrl+Shift+P}. Type \inlinecode{Remote-SSH: Add New SSH Host} and select that command. When \program{VS Code} asks for the SSH connection command, enter it in the following form, replacing the placeholders. The \inlinecode{-p} option selects the SSH port. The \inlinecode{-l} option supplies your login name (lowercase L). 
+
+\begin{lstlisting}
+ssh -p PORT_NUMBER -l USERNAME@cesr.sc.edu COMPUTER_IP_ADDRESS
+\end{lstlisting}
+
+
+
+For example, I would enter the following command to connect to \inlinecode{COCESR-1141}.
+
+\begin{lstlisting}
+ssh -p 222 -l jvaught@cesr.sc.edu 129.252.23.212
+\end{lstlisting}
+
+After entering the command, select the SSH configuration file in which \program{VS Code} should save the connection. Choose the first, default option for your own user account, unless you know what you are doing and want to select a different config file. This saves the connection details so that you can select the workstation next time.
+
+
+\section*{Connect to the workstation}
+
+Select Remote Explorer on the left sidebar. If necessary, select the SSH view in its dropdown. Find the workstation you just added and move the pointer over its entry to show the connection buttons.
+
+The arrow connects in the current window. The window-shaped button with a plus opens a new window. Either option works for this guide, however I will use the arrow to continue in the current window. You can also use \inlinecode{Remote-SSH: Connect to Host} from the Command Palette if you do not want to use the mouse. 
+
+On the first connection, \program{VS Code} may ask which operating system the remote workstation uses. Select \program{Linux}.
+
+SSH may also ask you to confirm the workstation's host key. This identifies the machine you are connecting to. You may be asked to re-confirm this if the SSH configurations change on the workstation.
+
+When prompted, enter your CESR account password, the password you use for your CESR computer and email. Your password characters will be hidden. Wait for \program{VS Code} to finish connecting and installing its remote components. The remote indicator in the lower-left corner should identify the connected workstation.
+
+\subsubsection*{IMPORTANT: If you forget your password}
+If you have forgotten your password, and want to change it, sign in at \url{https://myaccount.microsoft.com/} and select \inlinecode{Change Password}. Follow the prompts for your work account.
+
+\section*{Folder Access}
+
+After connecting, select \inlinecode{Open Folder} in the Explorer sidebar. This will give the editor a working location and lets you manage files in Explorer. You can create, rename, move, and delete files with the mouse, and transfer files from your computer by dragging them into the remote Explorer. \textbf{NOTE:} You do not need to open a folder to use the terminal.
+
+I recommend choosing your home folder. Its folder name is your account name, and it is usually the default location offered for a new connection. If you choose, you can instead open another folder you are authorized to read and write (including the HDD).
+
+\program{VS Code} may ask whether you trust the authors of the files in the folder. If you created the files or trust their source, accept the workspace-trust prompt. If you believe files in your home folder are unsafe or unexpected, alert your PI or project manager.
+
+\section*{Terminal Access}
+
+You can open a terminal through the Terminal menu, then New Terminal. The shortcut \keyshortcut{Ctrl+`} also opens the terminal (note: the small tick is the backtick key, shared with the tilde symbol \inlinecode{\string~} on your keyboard). The terminal in the connected \program{VS Code} window will now run on the remote workstation. 
+
+To check your access, type the following command and press Enter.
+
+\begin{lstlisting}
+hostname
+\end{lstlisting}
+
+As an example, if you connected to \inlinecode{COCESR-1141}, the output should be as follows.
+
+\begin{lstlisting}[style=output]
+cocesr-1141
+\end{lstlisting}
+
+A prompt normally returns when a command finishes, however some successful commands display no output and return you to the terminal prompt. In many Windows and Linux terminal applications, \keyshortcut{Ctrl+Shift+C} copies selected text and \keyshortcut{Ctrl+Shift+V} pastes it. \textbf{IMPORTANT:} The command \keyshortcut{Ctrl+C} STOPS a running terminal program. 
+
+\section*{Test the Compute Environment}
+
+First, create a folder for the exercise. The \inlinecode{mkdir} command creates(or `makes') directories. The \inlinecode{-p} option creates missing parent folders and allows the folder to exist already. The \inlinecode{\string~} symbol means your home folder.
+\begin{lstlisting}
+mkdir -p ~/Documents/hello-practice
+\end{lstlisting}
+
+Next, enter (or `open') that folder with \inlinecode{cd}, which means change directory.
+\begin{lstlisting}
+cd ~/Documents/hello-practice
+\end{lstlisting}
+
+Download the example with \program{curl}. The \inlinecode{--fail} option reports HTTP errors, \inlinecode{--location} follows redirects, and \inlinecode{--output} names the saved file. Copy both lines together; the backslash continues the command on the next line.
+\begin{lstlisting}
+curl --fail --location --output hello.py \
+"https://raw.githubusercontent.com/j-vaught/server-guide/main/hello.py"
+\end{lstlisting}
+
+If the download reports an error, resolve it before continuing. Then check that Python is available. This command prints the installed Python version.
+\begin{lstlisting}
+python3 --version
+\end{lstlisting}
+
+Finally, run the downloaded file with Python.
+\begin{lstlisting}
+python3 hello.py
+\end{lstlisting}
+
+The program should print a greeting, the workstation name, and the Python version. If \inlinecode{python3} is unavailable, ask for assistance from the PI/Project Manager or IT. 
+
+\clearpage
+\section{Installing Additional Software Tools}
+
+Once you have gotten connected and have the simple demo Python program working, you may decide you want more features --- more control, better validation, type checking, etc. Ergo, I am listing the install process for some key software components I've seen used on larger projects.
+
+\subsection{Git and GitHub}
+The absolute most common additional piece of software people will ask for --- beyond an operating system, drivers, and python --- is a Source Control or Version Control system. Today, there are naturally a whole slew of options to pick from, but realistically, everyone uses \program{Git}. Here, I will walk through the installation steps and some basic usage.
+
+\subsubsection*{Installing Git}
+
+Run the following commands in the remote Linux terminal. First, make programs installed under your account available to this terminal. This changes where the shell looks for commands.
+\begin{lstlisting}
+export PATH="$HOME/.local/bin:$PATH"
+\end{lstlisting}
+
+Check whether \program{Git} is already available.
+\begin{lstlisting}
+git --version
+\end{lstlisting}
+
+If a version appears, skip the download and installation below. Otherwise, enter your Documents folder.
+\begin{lstlisting}
+cd ~/Documents
+\end{lstlisting}
+
+Download the installer from this guide's repository.
+\begin{lstlisting}
+curl --fail --location --output git.sh \
+  https://raw.githubusercontent.com/j-vaught/server-guide/main/git.sh
+\end{lstlisting}
+
+Run the downloaded installer. It installs \program{Git} and its supporting libraries under your account for you to access only; this is NOT global installation.
+\begin{lstlisting}
+sh git.sh
+\end{lstlisting}
+
+After installation finishes, confirm that \program{Git} runs.
+\begin{lstlisting}
+git --version
+\end{lstlisting}
+
+The \inlinecode{export} command applies to the current terminal. Run it again in a new terminal, or add that same line to your \inlinecode{\string~/.bashrc} file to apply it automatically in future Bash terminals.
+
+\subsubsection*{Create a repository and record a change}
+
+Create a new practice folder. Use a new folder for this exercise so that you do not change an existing project.
+\begin{lstlisting}
+mkdir -p ~/Documents/git-practice
+\end{lstlisting}
+
+Enter the practice folder.
+\begin{lstlisting}
+cd ~/Documents/git-practice
+\end{lstlisting}
+
+Initialize a repository in that folder.
+\begin{lstlisting}
+git init
+\end{lstlisting}
+
+Create its initial branch named \inlinecode{main}. A branch is a named line of development.
+\begin{lstlisting}
+git checkout -b main
+\end{lstlisting}
+
+Set the author name attached to commits in this repository. Replace the placeholder with your own name.
+\begin{lstlisting}
+git config user.name "YOUR NAME"
+\end{lstlisting}
+
+Set the author's email address, replacing the placeholder with your own email.
+\begin{lstlisting}
+git config user.email "YOUR_EMAIL"
+\end{lstlisting}
+
+In \program{VS Code}, create a file named \inlinecode{README.txt} inside the practice folder. Write a sentence about the project and save the file. Return to the remote terminal and inspect the repository.
+\begin{lstlisting}
+git status
+\end{lstlisting}
+
+The new file should appear as untracked, meaning it has not yet been included in a commit. Select its current contents for the next commit with \inlinecode{git add}. This selection is called staging.
+\begin{lstlisting}
+git add README.txt
+\end{lstlisting}
+
+Record the staged contents with \inlinecode{git commit}. The \inlinecode{-m} option supplies a message describing the change.
+\begin{lstlisting}
+git commit -m "Add project notes"
+\end{lstlisting}
+
+Inspect the recorded history. The short string before the message identifies the commit.
+\begin{lstlisting}
+git log --oneline
+\end{lstlisting}
+
+To practice another change, edit and save \inlinecode{README.txt} again. Inspect the difference before recording it.
+\begin{lstlisting}
+git diff
+\end{lstlisting}
+
+Repeat \inlinecode{git add README.txt} and \inlinecode{git commit} with a new message to record the update.
+
+
+\clearpage
+\subsection{Python environments and packages}
+
+Different projects often require different Python versions and different versions of the same package. One way to keep your head straight about all of these version conflicts is to use an environment, which keeps these dependencies separate from other projects.
+
+While there are a few environment managers, the one I use the most often is \program{uv}. \program{uv} manages Python versions, project environments, and packages. It also records dependencies so that it is easy to recreate the project's environment.
+
+A more often used manager in scientific work is \program{Conda} and \program{Mamba}, both of which manage environments containing Python packages and other software, including compiled libraries and command-line tools. Below, we will install both through \program{Miniforge}, which uses the \program{conda-forge} package collection by default.
+
+Last, and least of all, Python also includes \program{venv}, which creates an environment from an existing Python installation. It is commonly paired with \program{pip} to install packages.
+
+\subsubsection*{Installing uv}
+To install uv, run the following command in the remote Linux terminal.
+\begin{lstlisting}
+curl -LsSf https://astral.sh/uv/install.sh | sh
+\end{lstlisting}
+
+After installation, open a new remote terminal so that it recognizes the new command. Check the installation.
+\begin{lstlisting}
+uv --version
+\end{lstlisting}
+
+\subsubsection*{Using uv}
+
+With \program{uv} installed, enter your Documents folder.
+\begin{lstlisting}
+cd ~/Documents
+\end{lstlisting}
+
+Create a new project named \inlinecode{UV-demo} that uses Python 3.11. If a suitable Python installation is unavailable, \program{uv} will automatically download it.
+\begin{lstlisting}
+uv init --python 3.11 UV-demo
+\end{lstlisting}
+
+Enter the project folder.
+\begin{lstlisting}
+cd UV-demo
+\end{lstlisting}
+
+Install a package with \inlinecode{uv add}. For example, the following command installs NumPy version 1.26.4.
+\begin{lstlisting}
+uv add "numpy==1.26.4"
+\end{lstlisting}
+
+Use \inlinecode{uv run} to run a command inside the project's environment. For example, check its Python version.
+\begin{lstlisting}
+uv run python --version
+\end{lstlisting}
+
+Check the installed NumPy version.
+\begin{lstlisting}
+uv run python -c "import numpy; print(numpy.__version__)"
+\end{lstlisting}
+
+To run your own Python file, put \inlinecode{uv run} before its normal command. For example, if the current folder contains \path{hello.py}, run \inlinecode{uv run python hello.py}. One thing to keep in mind is to keep \path{pyproject.toml} and \path{uv.lock} with your project in Git. 
+
+After downloading an existing uv project, you can download all dependencies via.
+\begin{lstlisting}
+uv sync --locked
+\end{lstlisting}
+
+The \inlinecode{--locked} option installs the package versions recorded in \path{uv.lock}, adding missing packages or replacing incorrect versions in the project's environment. If the lockfile is missing or no longer matches the requirements in \path{pyproject.toml}, the command stops with an error instead of updating the lockfile. 
+
+\subsubsection*{Installing Miniforge}
+
+If you prefer \program{Conda} or \program{Mamba}, install \program{Miniforge} with the following command in the remote Linux terminal.
+\begin{lstlisting}
+curl -fsSL \
+https://raw.githubusercontent.com/j-vaught/server-guide/main/miniforge.sh | sh
+\end{lstlisting}
+
+The script installs both tools into \path{~/miniforge3} and configures them for future Bash terminals.
+
+Open a new remote terminal, then check \program{Conda}.
+\begin{lstlisting}
+conda --version
+\end{lstlisting}
+
+Check \program{Mamba} separately.
+\begin{lstlisting}
+mamba --version
+\end{lstlisting}
+
+\subsubsection*{Using Conda and Mamba}
+
+Once installed, create a separate environment for each project. Keep the initial \inlinecode{base} environment for managing the tools. The following examples use \program{Conda}. For these create, activate, install, and deactivate commands, you may replace \inlinecode{conda} with \inlinecode{mamba} to use \program{Mamba} instead.
+
+Create an environment named \inlinecode{conda-demo} containing Python 3.11.
+\begin{lstlisting}
+conda create -n conda-demo python=3.11
+\end{lstlisting}
+
+Review the proposed packages and enter \inlinecode{y} when prompted to continue. After creation finishes, activate the environment.
+\begin{lstlisting}
+conda activate conda-demo
+\end{lstlisting}
+
+Activation selects this environment's Python and packages for the current terminal. Check its Python version.
+\begin{lstlisting}
+python --version
+\end{lstlisting}
+
+Install NumPy version 1.26.4 into the active environment.
+\begin{lstlisting}
+conda install numpy=1.26.4
+\end{lstlisting}
+
+Check the installed version.
+\begin{lstlisting}
+python -c "import numpy; print(numpy.__version__)"
+\end{lstlisting}
+
+While the environment is active, run your programs with their normal Python commands. For example, if the current folder contains \path{hello.py}, run \inlinecode{python hello.py}.
+
+When finished, leave the environment.
+\begin{lstlisting}
+conda deactivate
+\end{lstlisting}
+
+In a new terminal, activate \inlinecode{conda-demo} again before returning to the project.
+
+
+\clearpage
+\section*{TROUBLESHOOTING \& Additional Information}
+
+If login fails, contact your PI or project manager. To investigate the connection yourself, open Windows Terminal on your CESR computer. 
+
+Add \inlinecode{-vvv} before \inlinecode{-p} in your connection command. For example, replace the username below with your own CESR username and run the command for \inlinecode{COCESR-1141}.
+
+\begin{lstlisting}
+ssh -vvv -p 222 -l jvaught@cesr.sc.edu 129.252.23.212
+\end{lstlisting}
+
+The \inlinecode{-vvv} option prints detailed diagnostic messages about the connection and authentication attempts. A timeout usually points to the address, port, or network access. A \inlinecode{Permission denied} message points to an authentication or account-access problem. Keep the exact error message so that you can search for it or provide it to support.
+\subsection*{Server information}
+
+The two CESR workstation addresses are listed below.
+
+\begin{center}
+\begin{tabular}{lll}
+Workstation & IP address & SSH port\\\hline
+\inlinecode{COCESR-1141} & \inlinecode{129.252.23.212} & 222\\
+\inlinecode{COCESR-1034} & \inlinecode{10.173.112.77} & 222\\
+\end{tabular}
+\end{center}
+
+\end{document}
